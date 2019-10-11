@@ -317,7 +317,7 @@ function test(e, t) {
         }
         return u
     }
-      , B = function(e) {
+    , B = function(e) {
         var t = "14731382d816714fC59E47De5dA0C871D3F";
         if (null == t || void 0 == t)
             throw new Error("1008");
@@ -396,7 +396,7 @@ function get_traces(distance){
     };
 
     // 构造时间数组
-    var motion_time = Math.round(my_random(1000, 1500));
+    var motion_time = Math.round(my_random(4000, 6800));
     var time_array = []
     for(var i=0; i < plus.length; i++){
         time_array.push(Math.round(i * motion_time / plus.length))
@@ -424,30 +424,33 @@ function sample(array, times){
 
 function my_trace(token, distance){
     traces = get_traces(distance)
-    // console.log(traces.toString())
+    // console.log(traces.join('___'), traces.length)
 
     sample_traces = sample(traces, 50);
-    // console.log(sample_traces + "")
+    console.log(sample_traces.join('___'), sample_traces.length)
     test('', {})
+
     var encode_trace = []
     for (var i of sample_traces){
         encode_trace.push(wy_encode.trace(token, i))
     }
     
-    var trace_d = wy_encode.cp(sample_traces.join(":"))
-    console.log(trace_d)
+    console.log(JSON.stringify(encode_trace))
+
+    var trace_d = wy_encode.cp(encode_trace.join(":"))
     var trace_r = wy_encode.cp(wy_encode.trace(token, parseInt(distance, 10) / 220 * 100 + ""))
-    
+
     var data = JSON.stringify({
         d: trace_d,
         m: "",
         p: trace_r,
-        ext: wy_encode.cp(wy_encode.trace(token, 1 + "," + traces.length))
+        ext: wy_encode.cp(wy_encode.trace(token, 1 + "," + 159))
     })
+    console.log(data)
     return [data, wy_encode.cp(uuid(32))]
 }
 
-var token = 'b5348844df6b4e0f91a54dc682dc4a3a'
-console.log(my_trace(token, 200))
+var token = 'fd4cef518e9b4580a4a655e0833e5289'
+console.log(my_trace(token, 65))
 
 // 记得将计算出来的 distance / (bg.width / 220)

@@ -846,6 +846,7 @@ function fp_test(e, t) {
 
                         try {
                             var w = p = `{'v':'v1.1','fp':'${window.fp_encode(fp_param1)},${window.fp_encode(fp_param1)}','u':${n[s[86]]},'h':'dl.reg.163.com'}`
+                            console.log(p)
                             // var w = p = `{'v':'v1.1','fp':'${window.fp_encode(fp_param1)},${window.fp_encode(fp_param1)}','u':${n[s[86]]},'h':'dl.reg.163.com'}`
                               , n = le;
                             if (null == n || void 0 == n)
@@ -1031,7 +1032,7 @@ function my_fp(){
     return window.get_cookies
 }
 
-console.log(my_fp)
+console.log(my_fp())
 
 
 // var a = {}
