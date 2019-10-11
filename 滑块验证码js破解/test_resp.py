@@ -150,8 +150,6 @@ with open(trace_js_path, 'r', encoding='utf-8') as f:
     trace_code = f.read()
 trace_data, new_cb = execjs.compile(trace_code).call('my_trace', token, true_distance)
 print(trace_data, new_cb)
-trace_data = json.loads(trace_data)
-print(trace_data)
 
 data = {
     'd': 'abc',
@@ -177,7 +175,7 @@ params = (
     ('id', wycc_id),
     ('token', token),
     ('acToken', my_actoken),
-    ('data', json.dumps(trace_data)),
+    ('data', trace_data),
     ('width', '220'),
     ('type', '2'),
     ('version', '2.11.4'),
@@ -196,15 +194,14 @@ params = (
     ('capkey', wycc_id),
     ('pd', 'cc'),
     ('pkid', 'PFClpTB'),
-    ('cap', 'DNkyA5vRgG2LkOI77YRADj._0T-VG19FInByHV6M7o.XqCxM9N9Q10yKhsCo1HHEhQr9BGeX0xeYKGokseq_Wk8v_qT5plJDepoktaujTPZY7DNUYOBOAP0nHBsGLkIbNRsSQ7jH6nN8jxDOMROwcL5ejs_4Bx8DxRl7V_08T2BGm.Zxatj-r-lEK8HGpq24lYl6fFZIz-ivZSfakiwvNSQ4WY994GGHvUShhq8bNtVhfHQ0fptz2VRUw6fU-kAV6aWw..rsKu5n1vLDrp8cYsRGdMjtjYlZJ6Ts1X0oD7k.zc0Yy5oebSqPE.RGfkmOYMHi0e1jEorYp1lP6kB7P1eJ_NzXthRzLsJpRmgeDolc9pyTw1lGnSAPW0WaIhKf4.U9JmMIJx0yvd.jFWCWHK22qcFbPYdS.Ml2SQqVtK7kARBtZDvogsGeQSYBoIifh7DyBxFRo_kdDiqa.bcIZjmoI7fHF65ybv67UCg-MaHG_V7Fr-cFM_eMuNi3'),
     ('v', '2'),
     ('channel', '0'),
     ('topURL', 'http://cc.163.com/category/'),
     ('rtid', rtid),
     ('nocache', timestamp),
 )
-# vftcp_resp = session.get('https://dl.reg.163.com/dl/vftcp', headers=headers, params=params)
-# print(vftcp_resp.text)
+vftcp_resp = session.get('https://dl.reg.163.com/dl/vftcp', headers=headers, params=params)
+print(vftcp_resp.text)
 
 
 gt_params = {
