@@ -427,7 +427,7 @@ function my_trace(token, distance){
     // console.log(traces.join('___'), traces.length)
 
     sample_traces = sample(traces, 50);
-    console.log(sample_traces.join('___'), sample_traces.length)
+    // console.log(sample_traces.join('___'), sample_traces.length)
     test('', {})
 
     var encode_trace = []
@@ -435,8 +435,6 @@ function my_trace(token, distance){
         encode_trace.push(wy_encode.trace(token, i))
     }
     
-    console.log(JSON.stringify(encode_trace))
-
     var trace_d = wy_encode.cp(encode_trace.join(":"))
     var trace_r = wy_encode.cp(wy_encode.trace(token, parseInt(distance, 10) / 220 * 100 + ""))
 
@@ -446,11 +444,11 @@ function my_trace(token, distance){
         p: trace_r,
         ext: wy_encode.cp(wy_encode.trace(token, 1 + "," + 159))
     })
-    console.log(data)
     return [data, wy_encode.cp(uuid(32))]
 }
 
 var token = 'fd4cef518e9b4580a4a655e0833e5289'
-console.log(my_trace(token, 65))
+var distance = 65
+console.log(my_trace(token, distance))
 
 // 记得将计算出来的 distance / (bg.width / 220)

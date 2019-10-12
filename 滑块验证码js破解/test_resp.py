@@ -65,42 +65,14 @@ init_params = (
 init_resp = session.get('https://dl.reg.163.com/dl/ini', headers=headers, params=init_params)
 # print('init_resp: ', init_resp.text)
 
-
-# 第二个请求, 获得验证滑块的 actoken
-getconf_params = {
-    ('id', wycc_id),
-    ('ipv6', 'false'),
-    ('referer', 'https://dl.reg.163.com/webzj/v1.0.1/pub/index2_new.html'),
-    ('type', '2'),
-    ('callback', callback),
-}
-
-getconf_resp = session.get('https://webzjcaptcha.reg.163.com/api/v2/getconf', headers=headers, params=getconf_params)
-getconf_json = re.search(rf'{callback}\((.*?)\)', getconf_resp.text).group(1)
-getconf_dict = json.loads(getconf_json)
-
-pn = getconf_dict['data']['ac']['pn']
-bid = getconf_dict['data']['ac']['bid']
-actoken = getconf_dict['data']['ac']['token']
-# print(pn, bid, token)
-
-# 第三个请求，目前作用不详
-config_params = {
-    ('pn', pn),
-    ('cb', callback),
-    ('t', timestamp),
-}
-config_resp = session.get('https://webzjac.reg.163.com/v2/config/js', headers=headers, params=config_params)
-# print('config_resp:', config_resp.text)
-
-# 第四个请求，获得滑块的图片
+# 第二个请求，获得滑块的图片
 fp_js_path = r'C:\Users\86137\OneDrive\桌面\js_study\JS逆向\滑块验证码js破解\my_fp.js'
 with open(fp_js_path, 'r') as f:
     fp_code = f.read()
 fp = execjs.compile(fp_code).call('my_fp')
 print(fp)
 
-cb_js_path = r'C:\Users\86137\OneDrive\桌面\js_study\JS逆向\滑块验证码js破解\my_cp.js'
+cb_js_path = r'C:\Users\86137\OneDrive\桌面\js_study\JS逆向\滑块验证码js破解\my_cb.js'
 with open(cb_js_path, 'r') as f:
     cb_code = f.read()
 cb = execjs.compile(cb_code).call('my_cb')
@@ -150,32 +122,15 @@ with open(trace_js_path, 'r', encoding='utf-8') as f:
     trace_code = f.read()
 trace_data, new_cb = execjs.compile(trace_code).call('my_trace', token, true_distance)
 print(trace_data, new_cb)
+trace_data = json.loads(trace_data)
 
-data = {
-    'd': 'abc',
-    'v': '38eaf165',
-    'cb': '_WM_'
-}
-
-d_resp = requests.post('https://webzjac.reg.163.com/v2/d', headers=headers, data=data)
-print(d_resp.text)
-d_json = re.search(r'null\((.*?)\)', d_resp.text).group(1)
-d_dict = json.loads(d_json)
-dt = d_dict['result']['dt']
-
-actoken_js_path = r'C:\Users\86137\OneDrive\桌面\js_study\JS逆向\滑块验证码js破解\my_d.js'
-with open(actoken_js_path, 'r', encoding='utf-8') as f:
-    actoken_js_code = f.read()
-
-my_actoken = execjs.compile(actoken_js_code).call('my_actoken', dt)
-print(my_actoken)
 
 time.sleep(1)
-params = (
+check_params = (
     ('id', wycc_id),
     ('token', token),
-    ('acToken', my_actoken),
-    ('data', trace_data),
+    # ('acToken', my_actoken),
+    ('data', json.dumps(trace_data)),
     ('width', '220'),
     ('type', '2'),
     ('version', '2.11.4'),
@@ -185,34 +140,5 @@ params = (
     ('referer', 'https://dl.reg.163.com/webzj/v1.0.1/pub/index2_new.html'),
     ('callback', callback),
 )
-print(params)
-check_resp = session.get('https://webzjcaptcha.reg.163.com/api/v2/check', headers=headers, params=params)
+check_resp = session.get('https://webzjcaptcha.reg.163.com/api/v2/check', headers=headers, params=check_params)
 print(check_resp.text)
-
-params = (
-    ('un', ''),
-    ('capkey', wycc_id),
-    ('pd', 'cc'),
-    ('pkid', 'PFClpTB'),
-    ('v', '2'),
-    ('channel', '0'),
-    ('topURL', 'http://cc.163.com/category/'),
-    ('rtid', rtid),
-    ('nocache', timestamp),
-)
-vftcp_resp = session.get('https://dl.reg.163.com/dl/vftcp', headers=headers, params=params)
-print(vftcp_resp.text)
-
-
-gt_params = {
-    ('un', '925684@163.com'),
-    ('pkid', 'PFClpTB'),
-    ('pd', 'cc'),
-    ('pkht', 'cc.163.com'),
-    ('channel', '0'),
-    ('topURL', 'http://cc.163.com/category/Flive/'),
-    ('rtid', rtid),
-    ('nocache', timestamp),
-}
-# gt_resp = session.get('https://dl.reg.163.com/dl/gt', headers=headers, params=gt_params)
-# print('gt_resp.text: ', gt_resp.text)
