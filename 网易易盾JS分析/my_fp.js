@@ -845,9 +845,8 @@ function fp_test(e, t) {
                         // }
 
                         try {
-                            var w = p = `{'v':'v1.1','fp':'${window.fp_encode(fp_param1)},${window.fp_encode(fp_param1)}','u':${n[s[86]]},'h':'dl.reg.163.com'}`
+                            var w = p = `{'v':'v1.1','fp':'${window.fp_encode(fp_param1)},${window.fp_encode(fp_param2)}','u':${n[s[86]]},'h':'dl.reg.163.com'}`
                             console.log(p)
-                            // var w = p = `{'v':'v1.1','fp':'${window.fp_encode(fp_param1)},${window.fp_encode(fp_param1)}','u':${n[s[86]]},'h':'dl.reg.163.com'}`
                               , n = le;
                             if (null == n || void 0 == n)
                                 throw Error(s[73]);
